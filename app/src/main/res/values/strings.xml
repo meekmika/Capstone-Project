@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Warsart</string>
+
+    <string name="pref_fragment_to_show" translatable="false">fragment_to_show</string>
 </resources>

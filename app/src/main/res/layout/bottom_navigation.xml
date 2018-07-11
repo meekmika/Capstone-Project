@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/bottom_navigation_height"
+    android:background="@color/colorPrimary"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/btn_show_map"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Map"
+        android:textColor="@android:color/white" />
+
+    <View
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark" />
+
+    <TextView
+        android:id="@+id/btn_show_list"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="List"
+        android:textAlignment="center"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>
