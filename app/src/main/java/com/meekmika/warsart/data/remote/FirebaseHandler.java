@@ -17,7 +17,7 @@ public class FirebaseHandler {
     private static final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
     private static List<StreetArt> streetArtList;
 
-    public static void getStreetArtListAsync(final onDataReadyCallback callback) {
+    public static void getStreetArtListAsync(final OnDataReadyCallback callback) {
 
         if (streetArtList == null) {
             streetArtList = new ArrayList<>();
@@ -29,7 +29,7 @@ public class FirebaseHandler {
                         StreetArt streetArt = child.getValue(StreetArt.class);
                         streetArtList.add(streetArt);
                     }
-                    callback.onData(streetArtList);
+                    callback.onDataReady(streetArtList);
                 }
 
                 @Override
@@ -38,12 +38,12 @@ public class FirebaseHandler {
                 }
             });
         } else {
-            callback.onData(streetArtList);
+            callback.onDataReady(streetArtList);
         }
     }
 
-    public interface onDataReadyCallback {
-        void onData(List<StreetArt> streetArtList);
+    public interface OnDataReadyCallback {
+        void onDataReady(List<StreetArt> streetArtList);
 
         void onError();
     }

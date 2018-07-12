@@ -17,7 +17,7 @@ import com.meekmika.warsart.data.remote.FirebaseHandler;
 
 import java.util.List;
 
-public class ListFragment extends Fragment implements FirebaseHandler.onDataReadyCallback {
+public class ListFragment extends Fragment implements FirebaseHandler.OnDataReadyCallback {
 
     private StreetArtAdapter adapter;
 
@@ -44,7 +44,7 @@ public class ListFragment extends Fragment implements FirebaseHandler.onDataRead
     }
 
     @Override
-    public void onData(List<StreetArt> streetArtList) {
+    public void onDataReady(List<StreetArt> streetArtList) {
         adapter.setStreetArtData(streetArtList);
     }
 
