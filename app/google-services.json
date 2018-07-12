@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1021530028492",
+    "firebase_url": "https://warsart-1531213478199.firebaseio.com",
+    "project_id": "warsart-1531213478199",
+    "storage_bucket": "warsart-1531213478199.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1021530028492:android:35529aed66fc2f5d",
+        "android_client_info": {
+          "package_name": "com.meekmika.warsart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1021530028492-dv09b7en5cvrp2e8uuk620g40qd0r2e6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnAbKYXURXZzchYWK0Y0L1gvb9-drMMiI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

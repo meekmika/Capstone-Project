@@ -12,8 +12,14 @@ import android.view.ViewGroup;
 
 import com.meekmika.warsart.R;
 import com.meekmika.warsart.adapters.StreetArtAdapter;
+import com.meekmika.warsart.data.model.StreetArt;
+import com.meekmika.warsart.data.remote.FirebaseHandler;
 
-public class ListFragment extends Fragment {
+import java.util.List;
+
+public class ListFragment extends Fragment implements FirebaseHandler.onDataReadyCallback {
+
+    private StreetArtAdapter adapter;
 
     public ListFragment() {
     }
@@ -21,6 +27,8 @@ public class ListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        adapter = new StreetArtAdapter();
+        FirebaseHandler.getStreetArtListAsync(this);
     }
 
     @Nullable
@@ -30,9 +38,18 @@ public class ListFragment extends Fragment {
 
         RecyclerView recyclerView = rootView.findViewById(R.id.street_art_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        StreetArtAdapter streetArtAdapter = new StreetArtAdapter(getContext());
-        recyclerView.setAdapter(streetArtAdapter);
+        recyclerView.setAdapter(adapter);
 
         return rootView;
+    }
+
+    @Override
+    public void onData(List<StreetArt> streetArtList) {
+        adapter.setStreetArtData(streetArtList);
+    }
+
+    @Override
+    public void onError() {
+
     }
 }
