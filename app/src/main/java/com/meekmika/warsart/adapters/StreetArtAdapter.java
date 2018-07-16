@@ -1,6 +1,5 @@
 package com.meekmika.warsart.adapters;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,9 +17,12 @@ import com.meekmika.warsart.data.model.StreetArt;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 public class StreetArtAdapter extends RecyclerView.Adapter<StreetArtAdapter.StreetArtViewHolder> {
 
     private List<StreetArt> streetArtData;
+    private StreetArtAdapterOnClickHandler clickHandler;
     private FirebaseStorage storage;
 
     public StreetArtAdapter() {
@@ -45,14 +47,17 @@ public class StreetArtAdapter extends RecyclerView.Adapter<StreetArtAdapter.Stre
         holder.streetArtTitle.setText(title);
         holder.streetArtAddress.setText(address);
 
-        List<String> imageUrls = streetArtData.get(position).getImages();
-        if (imageUrls != null && imageUrls.size() != 0) {
+        StorageReference storageReference;
+        try {
             String imageUrl = streetArt.getImages().get(0);
-            StorageReference storageReference = storage.getReferenceFromUrl(imageUrl);
+            storageReference = storage.getReferenceFromUrl(imageUrl);
             Glide.with(holder.streetArtPreview.getContext())
                     .using(new FirebaseImageLoader())
                     .load(storageReference)
                     .into(holder.streetArtPreview);
+        } catch (Exception e) {
+            Timber.e("Could not load image for street art list item.");
+            e.printStackTrace();
         }
     }
 
@@ -67,7 +72,15 @@ public class StreetArtAdapter extends RecyclerView.Adapter<StreetArtAdapter.Stre
         notifyDataSetChanged();
     }
 
-    class StreetArtViewHolder extends RecyclerView.ViewHolder {
+    public void setOnClickHandler(StreetArtAdapterOnClickHandler clickHandler) {
+        this.clickHandler = clickHandler;
+    }
+
+    public interface StreetArtAdapterOnClickHandler {
+        void onClick(int streetArtIndex);
+    }
+
+    class StreetArtViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         final ImageView streetArtPreview;
         final TextView streetArtTitle;
@@ -78,6 +91,13 @@ public class StreetArtAdapter extends RecyclerView.Adapter<StreetArtAdapter.Stre
             streetArtPreview = view.findViewById(R.id.iv_street_art);
             streetArtTitle = view.findViewById(R.id.tv_street_art_title);
             streetArtAddress = view.findViewById(R.id.tv_street_art_address);
+
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (clickHandler != null) clickHandler.onClick(getAdapterPosition());
         }
     }
 }

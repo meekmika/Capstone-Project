@@ -1,18 +1,43 @@
 package com.meekmika.warsart.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public class StreetArt {
+public class StreetArt implements Parcelable {
 
     private int id;
     private String title;
     private String originalTitle;
-    private List<String> artist;
+    private String artist;
     private String description;
     private String address;
     private List<String> images;
 
     public StreetArt() {}
+
+    protected StreetArt(Parcel in) {
+        id = in.readInt();
+        title = in.readString();
+        originalTitle = in.readString();
+        artist = in.readString();
+        description = in.readString();
+        address = in.readString();
+        images = in.createStringArrayList();
+    }
+
+    public static final Creator<StreetArt> CREATOR = new Creator<StreetArt>() {
+        @Override
+        public StreetArt createFromParcel(Parcel in) {
+            return new StreetArt(in);
+        }
+
+        @Override
+        public StreetArt[] newArray(int size) {
+            return new StreetArt[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -38,11 +63,11 @@ public class StreetArt {
         this.originalTitle = originalTitle;
     }
 
-    public List<String> getArtist() {
+    public String getArtist() {
         return artist;
     }
 
-    public void setArtist(List<String> artist) {
+    public void setArtist(String artist) {
         this.artist = artist;
     }
 
@@ -68,5 +93,21 @@ public class StreetArt {
 
     public void setImages(List<String> images) {
         this.images = images;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(title);
+        dest.writeString(originalTitle);
+        dest.writeString(artist);
+        dest.writeString(description);
+        dest.writeString(address);
+        dest.writeStringList(images);
     }
 }

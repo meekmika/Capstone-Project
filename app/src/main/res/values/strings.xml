@@ -2,4 +2,7 @@
     <string name="app_name">Warsart</string>
 
     <string name="pref_fragment_to_show" translatable="false">fragment_to_show</string>
+    <string name="created_by">Created by</string>
+    <string name="description">Description</string>
+    <string name="address">Address</string>
 </resources>

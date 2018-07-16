@@ -1,5 +1,6 @@
 package com.meekmika.warsart.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,7 +18,11 @@ import com.meekmika.warsart.data.remote.FirebaseHandler;
 
 import java.util.List;
 
-public class ListFragment extends Fragment implements FirebaseHandler.OnDataReadyCallback {
+import static com.meekmika.warsart.ui.DetailActivity.EXTRA_STREET_ART_ID;
+
+public class ListFragment extends Fragment implements
+        FirebaseHandler.OnDataReadyCallback,
+        StreetArtAdapter.StreetArtAdapterOnClickHandler {
 
     private StreetArtAdapter adapter;
 
@@ -28,6 +33,7 @@ public class ListFragment extends Fragment implements FirebaseHandler.OnDataRead
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         adapter = new StreetArtAdapter();
+        adapter.setOnClickHandler(this);
         FirebaseHandler.getStreetArtListAsync(this);
     }
 
@@ -51,5 +57,12 @@ public class ListFragment extends Fragment implements FirebaseHandler.OnDataRead
     @Override
     public void onError() {
 
+    }
+
+    @Override
+    public void onClick(int streetArtIndex) {
+        Intent intentToStartDetailActivity = new Intent(getContext(), DetailActivity.class);
+        intentToStartDetailActivity.putExtra(EXTRA_STREET_ART_ID, streetArtIndex);
+        startActivity(intentToStartDetailActivity);
     }
 }

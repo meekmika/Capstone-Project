@@ -9,8 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.meekmika.warsart.R;
 
-import timber.log.Timber;
-
 import static com.meekmika.warsart.ui.BottomNavigation.SHOW_MAP;
 
 public class MainActivity extends AppCompatActivity implements
@@ -39,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements
     private void showFragment(String fragmentToShow) {
         Fragment fragment = fragmentManager.findFragmentByTag(fragmentToShow);
         if (fragment == null) {
-            Timber.d(fragmentToShow + " - not on backstack");
             fragment = fragmentToShow.equals(SHOW_MAP) ? new MapFragment() : new ListFragment();
         }
 

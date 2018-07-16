@@ -1,5 +1,6 @@
 package com.meekmika.warsart.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -7,6 +8,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.meekmika.warsart.data.model.StreetArt;
 import com.meekmika.warsart.data.remote.FirebaseHandler;
@@ -14,9 +16,13 @@ import com.meekmika.warsart.utils.GeoUtil;
 
 import java.util.List;
 
+import static com.meekmika.warsart.ui.DetailActivity.EXTRA_STREET_ART_ID;
+
 public class MapFragment extends SupportMapFragment implements OnMapReadyCallback, FirebaseHandler.OnDataReadyCallback {
 
     private static final LatLng WARSAW = new LatLng(52.237, 21.018);
+    private static final float ZOOM_LEVEL = 12f;
+
     private List<StreetArt> streetArtList;
     private GoogleMap googleMap;
 
@@ -34,17 +40,27 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
+        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                int streetArtIndex = (int) marker.getTag();
+                Intent intentToStartDetailActivity = new Intent(getContext(), DetailActivity.class);
+                intentToStartDetailActivity.putExtra(EXTRA_STREET_ART_ID, streetArtIndex);
+                startActivity(intentToStartDetailActivity);
+                return true;
+            }
+        });
         putMarkersOnMap();
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(WARSAW));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(WARSAW, 12f));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(WARSAW, ZOOM_LEVEL));
     }
 
     private void putMarkersOnMap() {
         if (streetArtList != null && googleMap != null) {
-            for (StreetArt streetArt : streetArtList) {
-                LatLng position = GeoUtil.getCoordinates(getContext(), streetArt.getAddress());
+            for (int i = 0; i < streetArtList.size(); i++) {
+                LatLng position = GeoUtil.getCoordinates(getContext(), streetArtList.get(i).getAddress());
                 if (position != null) {
-                    googleMap.addMarker(new MarkerOptions().position(position));
+                    googleMap.addMarker(new MarkerOptions().position(position)).setTag(i);
                 }
             }
         }

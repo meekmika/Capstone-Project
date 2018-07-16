@@ -10,4 +10,5 @@
 
     <dimen name="bottom_navigation_height">48dp</dimen>
     <dimen name="card_corner_radius">4dp</dimen>
+    <dimen name="expanded_toolbar_height">210dp</dimen>
 </resources>
