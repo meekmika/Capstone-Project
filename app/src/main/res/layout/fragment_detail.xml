@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,6 +16,21 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@color/colorPrimaryDark" />
+
+        <com.rd.PageIndicatorView
+            android:id="@+id/page_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/margin_medium"
+            app:piv_animationType="slide"
+            app:piv_dynamicCount="true"
+            app:piv_interactiveAnimation="true"
+            app:piv_padding="@dimen/padding_medium"
+            app:piv_radius="4dp"
+            app:piv_selectedColor="@color/colorAccent"
+            app:piv_unselectedColor="@color/colorPrimaryDark"
+            app:piv_viewPager="@id/image_view_pager" />
 
         <LinearLayout
             android:layout_width="match_parent"
