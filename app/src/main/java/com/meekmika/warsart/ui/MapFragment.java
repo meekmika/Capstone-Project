@@ -1,11 +1,15 @@
 package com.meekmika.warsart.ui;
 
 import android.Manifest;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -15,21 +19,23 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.meekmika.warsart.data.StreetArtViewModel;
 import com.meekmika.warsart.data.model.StreetArt;
-import com.meekmika.warsart.data.remote.FirebaseHandler;
 import com.meekmika.warsart.utils.GeoUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.meekmika.warsart.ui.DetailActivity.EXTRA_STREET_ART_ID;
 
-public class MapFragment extends SupportMapFragment implements OnMapReadyCallback, FirebaseHandler.OnDataReadyCallback {
+public class MapFragment extends SupportMapFragment implements OnMapReadyCallback {
 
     private static final int PERMISSION_ACCESS_FINE_LOCATION_REQUEST_CODE = 718;
     private static final LatLng WARSAW = new LatLng(52.237, 21.018);
     private static final float ZOOM_LEVEL = 12f;
 
-    private List<StreetArt> streetArtList;
+    private List<StreetArt> streetArtList = new ArrayList<>();
     private GoogleMap googleMap;
 
     public MapFragment() {
@@ -39,7 +45,17 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         this.getMapAsync(this);
-        FirebaseHandler.getStreetArtListAsync(this);
+        StreetArtViewModel viewModel = ViewModelProviders.of(this).get(StreetArtViewModel.class);
+        LiveData<List<StreetArt>> liveData = viewModel.getStreetArtLiveData();
+        liveData.observe(this, new Observer<List<StreetArt>>() {
+            @Override
+            public void onChanged(@Nullable List<StreetArt> streetArt) {
+                if (streetArt != null) {
+                    streetArtList = streetArt;
+                    putMarkersOnMap();
+                }
+            }
+        });
         setRetainInstance(true);
     }
 
@@ -64,6 +80,7 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
 
     private void putMarkersOnMap() {
         if (streetArtList != null && googleMap != null) {
+            googleMap.clear();
             for (int i = 0; i < streetArtList.size(); i++) {
                 LatLng position = GeoUtil.getCoordinates(getContext(), streetArtList.get(i).getAddress());
                 if (position != null) {
@@ -71,17 +88,6 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
                 }
             }
         }
-    }
-
-    @Override
-    public void onDataReady(List<StreetArt> streetArtList) {
-        this.streetArtList = streetArtList;
-        putMarkersOnMap();
-    }
-
-    @Override
-    public void onError() {
-
     }
 
     private void setupPermissions() {
