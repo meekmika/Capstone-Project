@@ -54,4 +54,8 @@ public class MainActivity extends AppCompatActivity implements
         showFragment(fragmentToShow);
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }
