@@ -19,33 +19,56 @@
             android:id="@+id/iv_street_art"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:scaleType="centerCrop"
             android:layout_weight="5"
-            android:background="@android:color/darker_gray" />
+            android:background="@android:color/darker_gray"
+            android:scaleType="centerCrop" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3"
-            android:orientation="vertical"
-            android:padding="@dimen/padding_large">
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_street_art_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/padding_small"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                tools:text="Title of Street Art Piece" />
 
-            <TextView
-                android:id="@+id/tv_street_art_address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
-                tools:text="Address of Street Art Piece" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_large">
+
+                <TextView
+                    android:id="@+id/tv_street_art_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/padding_small"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    tools:text="Title of Street Art Piece" />
+
+                <TextView
+                    android:id="@+id/tv_street_art_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                    tools:text="Address of Street Art Piece" />
+            </LinearLayout>
+
+            <com.meekmika.warsart.ui.FavoriteButton
+                android:id="@+id/btn_favorite"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginStart="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_large"
+                android:background="@drawable/toggle_favorite"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:textOff=""
+                android:textOn="" />
 
         </LinearLayout>
+
+
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

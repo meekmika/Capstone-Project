@@ -14,6 +14,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.meekmika.warsart.R;
 import com.meekmika.warsart.data.model.StreetArt;
+import com.meekmika.warsart.ui.FavoriteButton;
+import com.meekmika.warsart.utils.SharedPrefsUtil;
 
 import java.util.List;
 
@@ -41,11 +43,15 @@ public class StreetArtAdapter extends RecyclerView.Adapter<StreetArtAdapter.Stre
     @Override
     public void onBindViewHolder(@NonNull StreetArtViewHolder holder, int position) {
         StreetArt streetArt = streetArtData.get(position);
+        String id = streetArt.getId();
         String title = streetArt.getTitle();
         String address = streetArt.getAddress();
 
         holder.streetArtTitle.setText(title);
         holder.streetArtAddress.setText(address);
+        holder.favoriteButton.setStreetArtId(id);
+        holder.favoriteButton.setChecked(SharedPrefsUtil.isFavorite(holder.itemView.getContext(), id));
+
 
         StorageReference storageReference;
         try {
@@ -77,17 +83,19 @@ public class StreetArtAdapter extends RecyclerView.Adapter<StreetArtAdapter.Stre
     }
 
     public interface StreetArtAdapterOnClickHandler {
-        void onClick(int streetArtIndex);
+        void onClick(String streetArtId);
     }
 
     class StreetArtViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        final FavoriteButton favoriteButton;
         final ImageView streetArtPreview;
         final TextView streetArtTitle;
         final TextView streetArtAddress;
 
         StreetArtViewHolder(View view) {
             super(view);
+            favoriteButton = view.findViewById(R.id.btn_favorite);
             streetArtPreview = view.findViewById(R.id.iv_street_art);
             streetArtTitle = view.findViewById(R.id.tv_street_art_title);
             streetArtAddress = view.findViewById(R.id.tv_street_art_address);
@@ -97,7 +105,8 @@ public class StreetArtAdapter extends RecyclerView.Adapter<StreetArtAdapter.Stre
 
         @Override
         public void onClick(View v) {
-            if (clickHandler != null) clickHandler.onClick(getAdapterPosition());
+            if (clickHandler != null)
+                clickHandler.onClick(streetArtData.get(getAdapterPosition()).getId());
         }
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class StreetArt implements Parcelable {
 
-    private int id;
+    private String id;
     private String title;
     private String originalTitle;
     private String artist;
@@ -18,7 +18,7 @@ public class StreetArt implements Parcelable {
     public StreetArt() {}
 
     protected StreetArt(Parcel in) {
-        id = in.readInt();
+        id = in.readString();
         title = in.readString();
         originalTitle = in.readString();
         artist = in.readString();
@@ -39,11 +39,11 @@ public class StreetArt implements Parcelable {
         }
     };
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -102,12 +102,17 @@ public class StreetArt implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
+        dest.writeString(id);
         dest.writeString(title);
         dest.writeString(originalTitle);
         dest.writeString(artist);
         dest.writeString(description);
         dest.writeString(address);
         dest.writeStringList(images);
+    }
+
+    @Override
+    public String toString() {
+        return id;
     }
 }

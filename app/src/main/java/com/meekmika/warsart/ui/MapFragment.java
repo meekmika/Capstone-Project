@@ -1,9 +1,8 @@
 package com.meekmika.warsart.ui;
 
 import android.Manifest;
-import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -19,8 +18,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.meekmika.warsart.data.StreetArtViewModel;
 import com.meekmika.warsart.data.model.StreetArt;
 import com.meekmika.warsart.utils.GeoUtil;
 
@@ -35,7 +32,7 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     private static final LatLng WARSAW = new LatLng(52.237, 21.018);
     private static final float ZOOM_LEVEL = 12f;
 
-    private List<StreetArt> streetArtList = new ArrayList<>();
+    private ArrayList<StreetArt> streetArtList;
     private GoogleMap googleMap;
 
     public MapFragment() {
@@ -45,13 +42,13 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         this.getMapAsync(this);
-        StreetArtViewModel viewModel = ViewModelProviders.of(this).get(StreetArtViewModel.class);
-        LiveData<List<StreetArt>> liveData = viewModel.getStreetArtLiveData();
+        MainActivity mainActivity = (MainActivity) getActivity();
+        MutableLiveData<List<StreetArt>> liveData = mainActivity.getStreetArtList();
         liveData.observe(this, new Observer<List<StreetArt>>() {
             @Override
-            public void onChanged(@Nullable List<StreetArt> streetArt) {
-                if (streetArt != null) {
-                    streetArtList = streetArt;
+            public void onChanged(@Nullable List<StreetArt> streetArtList) {
+                if (streetArtList != null) {
+                    MapFragment.this.streetArtList = (ArrayList<StreetArt>) streetArtList;
                     putMarkersOnMap();
                 }
             }
@@ -66,9 +63,9 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                int streetArtIndex = (int) marker.getTag();
+                String streetArtId = (String) marker.getTag();
                 Intent intentToStartDetailActivity = new Intent(getContext(), DetailActivity.class);
-                intentToStartDetailActivity.putExtra(EXTRA_STREET_ART_ID, streetArtIndex);
+                intentToStartDetailActivity.putExtra(EXTRA_STREET_ART_ID, streetArtId);
                 startActivity(intentToStartDetailActivity);
                 return true;
             }
@@ -84,7 +81,7 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
             for (int i = 0; i < streetArtList.size(); i++) {
                 LatLng position = GeoUtil.getCoordinates(getContext(), streetArtList.get(i).getAddress());
                 if (position != null) {
-                    googleMap.addMarker(new MarkerOptions().position(position)).setTag(i);
+                    googleMap.addMarker(new MarkerOptions().position(position)).setTag(streetArtList.get(i).getId());
                 }
             }
         }

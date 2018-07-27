@@ -1,8 +1,7 @@
 package com.meekmika.warsart.ui;
 
-import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,13 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.firebase.database.DataSnapshot;
 import com.meekmika.warsart.R;
 import com.meekmika.warsart.adapters.StreetArtAdapter;
-import com.meekmika.warsart.data.StreetArtViewModel;
 import com.meekmika.warsart.data.model.StreetArt;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.meekmika.warsart.ui.DetailActivity.EXTRA_STREET_ART_ID;
@@ -37,8 +33,8 @@ public class ListFragment extends Fragment implements StreetArtAdapter.StreetArt
         super.onCreate(savedInstanceState);
         adapter = new StreetArtAdapter();
         adapter.setOnClickHandler(this);
-        StreetArtViewModel viewModel = ViewModelProviders.of(this).get(StreetArtViewModel.class);
-        LiveData<List<StreetArt>> liveData = viewModel.getStreetArtLiveData();
+        MainActivity mainActivity = (MainActivity) getActivity();
+        MutableLiveData<List<StreetArt>> liveData = mainActivity.getStreetArtList();
         liveData.observe(this, new Observer<List<StreetArt>>() {
             @Override
             public void onChanged(@Nullable List<StreetArt> streetArtList) {
@@ -62,9 +58,15 @@ public class ListFragment extends Fragment implements StreetArtAdapter.StreetArt
     }
 
     @Override
-    public void onClick(int streetArtIndex) {
+    public void onClick(String streetArtId) {
         Intent intentToStartDetailActivity = new Intent(getContext(), DetailActivity.class);
-        intentToStartDetailActivity.putExtra(EXTRA_STREET_ART_ID, streetArtIndex);
+        intentToStartDetailActivity.putExtra(EXTRA_STREET_ART_ID, streetArtId);
         startActivity(intentToStartDetailActivity);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 }
