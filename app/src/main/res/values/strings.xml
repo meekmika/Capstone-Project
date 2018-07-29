@@ -6,4 +6,7 @@
     <string name="description">Description</string>
     <string name="address">Address</string>
     <string name="show_only_favorites">Show only favorites</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="configure">Configure</string>
+    <string name="add_widget">Add widget</string>
 </resources>
