@@ -32,6 +32,7 @@ public class DetailActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.details);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final FavoriteButton favoriteButton = findViewById(R.id.btn_favorite);
@@ -45,7 +46,6 @@ public class DetailActivity extends AppCompatActivity {
             public void onChanged(@Nullable HashMap<String, StreetArt> streetArtHashMap) {
                 if (streetArtHashMap != null) {
                     StreetArt streetArt = streetArtHashMap.get(streetArtId);
-                    getSupportActionBar().setTitle(streetArt.getTitle());
                     DetailFragment detailFragment = DetailFragment.newInstance(streetArt);
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     fragmentManager.beginTransaction()
