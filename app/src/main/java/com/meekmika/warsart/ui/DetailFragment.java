@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,11 +33,6 @@ import com.meekmika.warsart.R;
 import com.meekmika.warsart.adapters.ImagePagerAdapter;
 import com.meekmika.warsart.data.model.StreetArt;
 import com.meekmika.warsart.utils.GeoUtil;
-import com.rd.PageIndicatorView;
-
-import org.w3c.dom.Text;
-
-import timber.log.Timber;
 
 import static android.content.Context.LOCATION_SERVICE;
 import static com.meekmika.warsart.ui.DetailActivity.STREET_ART;
@@ -102,7 +96,7 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
             if (streetArt.getImages().size() < 2) {
                 pageIndicatorContainer.setVisibility(View.GONE);
             }
-            mapContainer.setAspectRatio(9/16f);
+            mapContainer.setAspectRatio(9 / 16f);
         }
 
         ImageButton openMapsButton = rootView.findViewById(R.id.btn_open_maps);
@@ -129,6 +123,38 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
             googleMap.addMarker(new MarkerOptions().position(position));
         }
     }
+
+    private final LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(final Location location) {
+            LatLng streetArtLocation = GeoUtil.getCoordinates(getContext(), streetArt.getAddress());
+            if (streetArtLocation != null) {
+                double dist = SphericalUtil.computeDistanceBetween(new LatLng(location.getLatitude(), location.getLongitude()), streetArtLocation);
+                String displayText = Math.round(dist) + " m away";
+                if (dist > 1000) {
+                    int distKm = (int) Math.round(dist / 1000);
+                    displayText = distKm + " km away";
+                }
+                distanceTextView.setText(displayText);
+                distanceTextView.setVisibility(View.VISIBLE);
+            }
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
 
     private void setupPermissions() {
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -158,36 +184,4 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
             }
         }
     }
-
-    private final LocationListener locationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(final Location location) {
-            LatLng streetArtLocation = GeoUtil.getCoordinates(getContext(), streetArt.getAddress());
-            if(streetArtLocation != null) {
-                double dist = SphericalUtil.computeDistanceBetween(new LatLng(location.getLatitude(), location.getLongitude()), streetArtLocation);
-                String displayText = Math.round(dist) + " m away";
-                if (dist > 1000) {
-                    int distKm = (int) Math.round(dist/1000);
-                    displayText = distKm + " km away";
-                }
-                distanceTextView.setText(displayText);
-                distanceTextView.setVisibility(View.VISIBLE);
-            }
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-    };
 }

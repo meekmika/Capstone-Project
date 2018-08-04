@@ -10,4 +10,6 @@
     <string name="configure">Configure</string>
     <string name="add_widget">Add widget</string>
     <string name="details">Details</string>
+    <string name="map">Map</string>
+    <string name="list">List</string>
 </resources>

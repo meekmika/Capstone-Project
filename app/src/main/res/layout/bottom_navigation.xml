@@ -2,31 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/bottom_navigation_height"
-    android:background="@color/colorPrimary"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:elevation="8dp"
     android:orientation="horizontal">
 
     <TextView
+        android:background="@color/colorPrimary"
         android:id="@+id/btn_show_map"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="Map"
-        android:textColor="@android:color/white" />
+        style="@style/BottomNavigationText"
+        android:text="@string/map" />
 
     <View
         android:layout_width="1dp"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark" />
+        android:background="@color/divider" />
 
     <TextView
+        android:background="@color/colorPrimary"
         android:id="@+id/btn_show_list"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="List"
-        android:textAlignment="center"
-        android:textColor="@android:color/white" />
+        style="@style/BottomNavigationText"
+        android:text="@string/list" />
 
 </LinearLayout>
