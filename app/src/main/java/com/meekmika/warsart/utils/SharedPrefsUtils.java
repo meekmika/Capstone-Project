@@ -6,7 +6,7 @@ import android.preference.PreferenceManager;
 
 import java.util.HashSet;
 
-public class SharedPrefsUtil {
+public class SharedPrefsUtils {
     public static final String FAVORITES_KEY = "favorites_key";
     public static final String SHOW_FAVORITES_KEY = "show_favorites";
 

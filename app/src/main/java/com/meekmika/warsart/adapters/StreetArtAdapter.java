@@ -15,7 +15,7 @@ import com.google.firebase.storage.StorageReference;
 import com.meekmika.warsart.R;
 import com.meekmika.warsart.data.model.StreetArt;
 import com.meekmika.warsart.ui.FavoriteButton;
-import com.meekmika.warsart.utils.SharedPrefsUtil;
+import com.meekmika.warsart.utils.SharedPrefsUtils;
 
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class StreetArtAdapter extends RecyclerView.Adapter<StreetArtAdapter.Stre
         holder.streetArtTitle.setText(title);
         holder.streetArtAddress.setText(address);
         holder.favoriteButton.setStreetArtId(id);
-        holder.favoriteButton.setChecked(SharedPrefsUtil.isFavorite(holder.itemView.getContext(), id));
+        holder.favoriteButton.setChecked(SharedPrefsUtils.isFavorite(holder.itemView.getContext(), id));
 
 
         StorageReference storageReference;

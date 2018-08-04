@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.util.Pair;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,11 +30,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.maps.android.SphericalUtil;
 import com.meekmika.warsart.R;
 import com.meekmika.warsart.adapters.ImagePagerAdapter;
 import com.meekmika.warsart.data.model.StreetArt;
-import com.meekmika.warsart.utils.GeoUtil;
+import com.meekmika.warsart.utils.GeoUtils;
+import com.meekmika.warsart.utils.NetworkUtils;
+
+import java.net.URL;
 
 import static android.content.Context.LOCATION_SERVICE;
 import static com.meekmika.warsart.ui.DetailActivity.STREET_ART;
@@ -44,6 +48,31 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
     private static final long LOCATION_REFRESH_TIME = 1200000; //20 min
     private static final float LOCATION_REFRESH_DISTANCE = 100; //100 meters
     private StreetArt streetArt;
+    private final LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(final Location location) {
+            LatLng streetArtLocation = GeoUtils.getCoordinates(getContext(), streetArt.getAddress());
+            LatLng origin = new LatLng(location.getLatitude(), location.getLongitude());
+            if (streetArtLocation != null) {
+                new GetDistanceTask().execute(new Pair<>(origin, streetArtLocation));
+            }
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
     private GoogleMap googleMap;
     private LocationManager locationManager;
     private TextView distanceTextView;
@@ -116,45 +145,13 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap map) {
         googleMap = map;
         setupPermissions();
-        LatLng position = GeoUtil.getCoordinates(getContext(), streetArt.getAddress());
+        LatLng position = GeoUtils.getCoordinates(getContext(), streetArt.getAddress());
         if (position != null) {
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(position));
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, ZOOM_LEVEL));
             googleMap.addMarker(new MarkerOptions().position(position));
         }
     }
-
-    private final LocationListener locationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(final Location location) {
-            LatLng streetArtLocation = GeoUtil.getCoordinates(getContext(), streetArt.getAddress());
-            if (streetArtLocation != null) {
-                double dist = SphericalUtil.computeDistanceBetween(new LatLng(location.getLatitude(), location.getLongitude()), streetArtLocation);
-                String displayText = Math.round(dist) + " m away";
-                if (dist > 1000) {
-                    int distKm = (int) Math.round(dist / 1000);
-                    displayText = distKm + " km away";
-                }
-                distanceTextView.setText(displayText);
-                distanceTextView.setVisibility(View.VISIBLE);
-            }
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-    };
 
     private void setupPermissions() {
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -181,6 +178,34 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
                             LOCATION_REFRESH_DISTANCE, locationListener);
                 }
+            }
+        }
+    }
+
+    public class GetDistanceTask extends AsyncTask<Pair<LatLng, LatLng>, Void, String[]> {
+        @Override
+        protected String[] doInBackground(Pair<LatLng, LatLng>... params) {
+            if (params.length == 0) {
+                return null;
+            }
+
+            LatLng origin = params[0].first;
+            LatLng destination = params[0].second;
+            URL destinationUrl = NetworkUtils.buildUrl(origin, destination);
+
+            try {
+                return NetworkUtils.getDestinationStringsFromJson(NetworkUtils.getResponseFromHttpUrl(destinationUrl));
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String[] response) {
+            if (response != null) {
+                distanceTextView.setText(getString(R.string.distance, response[1], response[0]));
+                distanceTextView.setVisibility(View.VISIBLE);
             }
         }
     }

@@ -12,7 +12,7 @@ import android.support.v7.widget.Toolbar;
 import com.meekmika.warsart.R;
 import com.meekmika.warsart.data.StreetArtViewModel;
 import com.meekmika.warsart.data.model.StreetArt;
-import com.meekmika.warsart.utils.SharedPrefsUtil;
+import com.meekmika.warsart.utils.SharedPrefsUtils;
 
 import java.util.HashMap;
 
@@ -37,7 +37,7 @@ public class DetailActivity extends AppCompatActivity {
 
         final FavoriteButton favoriteButton = findViewById(R.id.btn_favorite);
         favoriteButton.setStreetArtId(streetArtId);
-        favoriteButton.setChecked(SharedPrefsUtil.isFavorite(this, streetArtId));
+        favoriteButton.setChecked(SharedPrefsUtils.isFavorite(this, streetArtId));
 
         StreetArtViewModel viewModel = ViewModelProviders.of(this).get(StreetArtViewModel.class);
         LiveData<HashMap<String, StreetArt>> liveData = viewModel.getStreetArtLiveData();

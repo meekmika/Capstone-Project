@@ -18,14 +18,15 @@ import android.view.MenuItem;
 import com.meekmika.warsart.R;
 import com.meekmika.warsart.data.StreetArtViewModel;
 import com.meekmika.warsart.data.model.StreetArt;
-import com.meekmika.warsart.utils.SharedPrefsUtil;
+import com.meekmika.warsart.utils.NetworkUtils;
+import com.meekmika.warsart.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import static com.meekmika.warsart.ui.BottomNavigation.SHOW_MAP;
-import static com.meekmika.warsart.utils.SharedPrefsUtil.SHOW_FAVORITES_KEY;
+import static com.meekmika.warsart.utils.SharedPrefsUtils.SHOW_FAVORITES_KEY;
 
 public class MainActivity extends AppCompatActivity implements
         BottomNavigation.BottomNavigationOnClickListener,
@@ -116,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        menu.getItem(0).setChecked(SharedPrefsUtil.getShowFavoritesPref(this));
+        menu.getItem(0).setChecked(SharedPrefsUtils.getShowFavoritesPref(this));
         return true;
     }
 
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements
         switch (item.getItemId()) {
             case R.id.action_show_favorites:
                 item.setChecked(!item.isChecked());
-                SharedPrefsUtil.setShowFavoritesPref(this, item.isChecked());
+                SharedPrefsUtils.setShowFavoritesPref(this, item.isChecked());
             default:
                 return super.onOptionsItemSelected(item);
         }

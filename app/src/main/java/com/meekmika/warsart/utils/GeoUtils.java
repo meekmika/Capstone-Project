@@ -10,7 +10,7 @@ import java.util.List;
 
 import timber.log.Timber;
 
-public class GeoUtil {
+public class GeoUtils {
 
     public static LatLng getCoordinates(Context context, String addressString) {
         try {

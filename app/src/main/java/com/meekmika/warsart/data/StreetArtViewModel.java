@@ -14,14 +14,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.meekmika.warsart.data.model.StreetArt;
-import com.meekmika.warsart.utils.SharedPrefsUtil;
+import com.meekmika.warsart.utils.SharedPrefsUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
-import static com.meekmika.warsart.utils.SharedPrefsUtil.FAVORITES_KEY;
+import static com.meekmika.warsart.utils.SharedPrefsUtils.FAVORITES_KEY;
 
 public class StreetArtViewModel extends AndroidViewModel {
     private static final DatabaseReference DB_REF = FirebaseDatabase.getInstance().getReference();
@@ -45,7 +45,7 @@ public class StreetArtViewModel extends AndroidViewModel {
         super(application);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplication());
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
-        favoriteIds = SharedPrefsUtil.loadFavoritesPref(getApplication());
+        favoriteIds = SharedPrefsUtils.loadFavoritesPref(getApplication());
         updateFavorites();
     }
 

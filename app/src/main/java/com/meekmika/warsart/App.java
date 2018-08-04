@@ -1,7 +1,6 @@
 package com.meekmika.warsart;
 
 import android.app.Application;
-import android.arch.lifecycle.ViewModelProvider;
 
 import com.google.firebase.database.FirebaseDatabase;
 

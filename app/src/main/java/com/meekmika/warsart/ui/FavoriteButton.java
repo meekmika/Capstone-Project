@@ -8,7 +8,7 @@ import android.widget.ToggleButton;
 
 import java.util.HashSet;
 
-import static com.meekmika.warsart.utils.SharedPrefsUtil.FAVORITES_KEY;
+import static com.meekmika.warsart.utils.SharedPrefsUtils.FAVORITES_KEY;
 
 public class FavoriteButton extends ToggleButton {
 
