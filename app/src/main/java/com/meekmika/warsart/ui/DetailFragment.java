@@ -33,7 +33,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.meekmika.warsart.R;
 import com.meekmika.warsart.adapters.ImagePagerAdapter;
 import com.meekmika.warsart.data.model.StreetArt;
-import com.meekmika.warsart.utils.GeoUtils;
 import com.meekmika.warsart.utils.NetworkUtils;
 
 import java.net.URL;
@@ -51,11 +50,9 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
     private final LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(final Location location) {
-            LatLng streetArtLocation = GeoUtils.getCoordinates(getContext(), streetArt.getAddress());
+            LatLng streetArtLocation = new LatLng(streetArt.getLat(), streetArt.getLng());
             LatLng origin = new LatLng(location.getLatitude(), location.getLongitude());
-            if (streetArtLocation != null) {
-                new GetDistanceTask().execute(new Pair<>(origin, streetArtLocation));
-            }
+            new GetDistanceTask().execute(new Pair<>(origin, streetArtLocation));
         }
 
         @Override
@@ -164,12 +161,10 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap map) {
         googleMap = map;
         setupPermissions();
-        LatLng position = GeoUtils.getCoordinates(getContext(), streetArt.getAddress());
-        if (position != null) {
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(position));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, ZOOM_LEVEL));
-            googleMap.addMarker(new MarkerOptions().position(position));
-        }
+        LatLng position = new LatLng(streetArt.getLat(), streetArt.getLng());
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, ZOOM_LEVEL));
+        googleMap.addMarker(new MarkerOptions().position(position));
     }
 
     private void setupPermissions() {
@@ -201,18 +196,22 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    public class GetDistanceTask extends AsyncTask<Pair<LatLng, LatLng>, Void, String[]> {
+    public class GetDistanceTask extends AsyncTask<Pair, Void, String[]> {
         @Override
-        protected String[] doInBackground(Pair<LatLng, LatLng>... params) {
+        protected String[] doInBackground(Pair... params) {
             if (params.length == 0) {
                 return null;
             }
 
-            LatLng origin = params[0].first;
-            LatLng destination = params[0].second;
-            URL destinationUrl = NetworkUtils.buildUrl(origin, destination);
+            LatLng origin = (LatLng) params[0].first;
+            LatLng destination = (LatLng) params[0].second;
+
+            if (origin == null || destination == null) {
+                return null;
+            }
 
             try {
+                URL destinationUrl = NetworkUtils.buildUrl(origin, destination);
                 return NetworkUtils.getDestinationStringsFromJson(NetworkUtils.getResponseFromHttpUrl(destinationUrl));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -222,7 +221,7 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
 
         @Override
         protected void onPostExecute(String[] response) {
-            if (response != null) {
+            if (response != null && getContext() != null) {
                 distanceTextView.setText(getString(R.string.distance, response[0], response[1]));
                 distanceTextView.setVisibility(View.VISIBLE);
             }

@@ -19,7 +19,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.meekmika.warsart.data.model.StreetArt;
-import com.meekmika.warsart.utils.GeoUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,10 +78,9 @@ public class MapFragment extends SupportMapFragment implements OnMapReadyCallbac
         if (streetArtList != null && googleMap != null) {
             googleMap.clear();
             for (int i = 0; i < streetArtList.size(); i++) {
-                LatLng position = GeoUtils.getCoordinates(getContext(), streetArtList.get(i).getAddress());
-                if (position != null) {
-                    googleMap.addMarker(new MarkerOptions().position(position)).setTag(streetArtList.get(i).getId());
-                }
+                StreetArt streetArt = streetArtList.get(i);
+                LatLng position = new LatLng(streetArt.getLat(), streetArt.getLng());
+                googleMap.addMarker(new MarkerOptions().position(position)).setTag(streetArt.getId());
             }
         }
     }

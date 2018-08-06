@@ -23,7 +23,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/list_item_scrim">
+        android:background="@drawable/scrim_list_item">
 
         <LinearLayout
             android:layout_width="match_parent"

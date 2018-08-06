@@ -62,6 +62,8 @@ public class StreetArtWidgetAdapter extends RecyclerView.Adapter<StreetArtWidget
             Glide.with(holder.streetArtPreview.getContext())
                     .using(new FirebaseImageLoader())
                     .load(storageReference)
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.placeholder)
                     .into(holder.streetArtPreview);
         } catch (Exception e) {
             Timber.e("Could not load image for street art list item.");

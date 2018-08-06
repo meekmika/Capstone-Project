@@ -14,6 +14,8 @@ public class StreetArt implements Parcelable {
     private String description;
     private String address;
     private List<String> images;
+    private double lat;
+    private double lng;
 
     public StreetArt() {}
 
@@ -95,6 +97,22 @@ public class StreetArt implements Parcelable {
         this.images = images;
     }
 
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -113,6 +131,6 @@ public class StreetArt implements Parcelable {
 
     @Override
     public String toString() {
-        return id;
+        return id + ", " + title;
     }
 }
