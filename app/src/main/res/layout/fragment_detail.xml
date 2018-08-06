@@ -13,13 +13,18 @@
 
         <com.meekmika.warsart.ui.FixedAspectRatioFrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:background="@android:color/darker_gray">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/placeholder" />
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/image_view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorPrimaryDark" />
+                android:layout_height="match_parent" />
 
         </com.meekmika.warsart.ui.FixedAspectRatioFrameLayout>
 
@@ -34,11 +39,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_large"
+                android:focusable="false"
                 app:piv_animationType="slide"
                 app:piv_dynamicCount="true"
                 app:piv_interactiveAnimation="true"
                 app:piv_padding="@dimen/padding_medium"
-                app:piv_radius="4dp"
+                app:piv_radius="@dimen/page_indicator_radius"
                 app:piv_selectedColor="@color/colorAccent"
                 app:piv_unselectedColor="@color/colorPrimaryDark"
                 app:piv_viewPager="@id/image_view_pager" />
@@ -52,93 +58,117 @@
 
             <TextView
                 android:id="@+id/tv_street_art_title"
-                style="@style/Base.TextAppearance.AppCompat.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:fontFamily="@font/work_sans_semibold"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/street_art_detail_title_text_size"
                 tools:text="Title of the Art Piece" />
 
             <TextView
-                style="@style/Base.TextAppearance.AppCompat.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_small"
-                android:text="@string/created_by" />
-
-            <TextView
                 android:id="@+id/tv_street_art_artist"
-                style="@style/TextAppearance.AppCompat.Body1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_medium"
-                tools:text="Name of Artist" />
+                android:layout_marginBottom="@dimen/margin_large"
+                android:fontFamily="@font/work_sans"
+                android:textColor="@color/text_dark_gray"
+                android:textSize="@dimen/street_art_detail_artist_text_size"
+                tools:text="Created by Name of Artist" />
 
-            <TextView
-                style="@style/Base.TextAppearance.AppCompat.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_small"
-                android:text="@string/about" />
 
             <TextView
                 android:id="@+id/tv_street_art_description"
-                style="@style/TextAppearance.AppCompat.Body1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:fontFamily="@font/work_sans"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/street_art_detail_description_text_size"
                 tools:text="Some information about the art piece" />
 
         </LinearLayout>
 
         <include layout="@layout/divider_horizontal" />
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
+
 
             <LinearLayout
+                android:id="@+id/text_container"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_large"
                 android:layout_marginStart="@dimen/margin_large"
-                android:layout_weight="1"
+                android:layout_marginTop="@dimen/margin_large"
                 android:gravity="center_vertical"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/vertical_divider"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/tv_street_art_address"
-                    style="@style/TextAppearance.AppCompat.Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/work_sans"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/street_art_detail_address_text_size"
                     tools:text="Address of Art Piece" />
 
                 <TextView
-                    android:visibility="gone"
                     android:id="@+id/tv_street_art_distance"
-                    style="@style/Base.TextAppearance.AppCompat.Body1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="3.5 km away" />
+                    android:fontFamily="@font/work_sans"
+                    android:textColor="@color/text_dark_gray"
+                    android:textSize="@dimen/street_art_detail_distance_text_size"
+                    android:visibility="gone"
+                    tools:text="3.5 km walk - 40 mins"
+                    tools:visibility="visible" />
+
             </LinearLayout>
 
-            <include layout="@layout/divider_vertical" />
 
             <ImageButton
                 android:id="@+id/btn_open_maps"
                 android:layout_width="@dimen/icon_size_large"
                 android:layout_height="@dimen/icon_size_large"
-                android:layout_margin="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_large"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_map" />
-        </LinearLayout>
+                android:contentDescription="@string/a11y_maps_button"
+                android:src="@drawable/ic_map"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <include
+                android:id="@+id/vertical_divider"
+                layout="@layout/divider_vertical"
+                android:layout_width="@dimen/divider_thickness"
+                android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/margin_large"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_open_maps"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </android.support.constraint.ConstraintLayout>
 
         <include layout="@layout/divider_horizontal" />
 
         <com.meekmika.warsart.ui.FixedAspectRatioFrameLayout
             android:id="@+id/map_container"
             android:layout_width="match_parent"
-            android:layout_height="0dp" />
+            android:layout_height="0dp"
+            android:contentDescription="@string/a11y_map" />
     </LinearLayout>
 
 </ScrollView>

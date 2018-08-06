@@ -118,10 +118,29 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
 
         if (streetArt != null) {
             viewPager.setAdapter(new ImagePagerAdapter(streetArt.getImages()));
-            titleTextView.setText(streetArt.getTitle());
-            addressTextView.setText(streetArt.getAddress());
-            artistTextView.setText(streetArt.getArtist());
-            descriptionTextView.setText(streetArt.getDescription());
+            viewPager.setContentDescription(getString(R.string.a11y_images));
+
+            String title = streetArt.getTitle();
+            if (title == null || title.isEmpty()) title = "Untitled";
+            titleTextView.setText(title);
+            titleTextView.setContentDescription(getString(R.string.a11y_title, title));
+
+            String artist = streetArt.getArtist();
+            if (artist == null || artist.isEmpty()) artist = "Unknown";
+            artistTextView.setText(getString(R.string.created_by, artist));
+            artistTextView.setContentDescription(getString(R.string.a11y_created_by, artist));
+
+            String description = streetArt.getDescription();
+            if (description == null || description.isEmpty())
+                descriptionTextView.setVisibility(View.GONE);
+            descriptionTextView.setText(description);
+            descriptionTextView.setContentDescription(getString(R.string.a11y_about, description));
+
+            String address = streetArt.getAddress();
+            if (streetArt.getAddress() == null || address.isEmpty()) address = "Unknown location";
+            addressTextView.setText(address);
+            addressTextView.setContentDescription(getString(R.string.a11y_address, address));
+
             if (streetArt.getImages().size() < 2) {
                 pageIndicatorContainer.setVisibility(View.GONE);
             }
@@ -204,7 +223,7 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
         @Override
         protected void onPostExecute(String[] response) {
             if (response != null) {
-                distanceTextView.setText(getString(R.string.distance, response[1], response[0]));
+                distanceTextView.setText(getString(R.string.distance, response[0], response[1]));
                 distanceTextView.setVisibility(View.VISIBLE);
             }
         }

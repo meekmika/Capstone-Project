@@ -8,12 +8,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.meekmika.warsart.R;
 import com.meekmika.warsart.data.StreetArtViewModel;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements
         BottomNavigation.BottomNavigationOnClickListener,
         SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private Snackbar snackbar;
     private SharedPreferences sharedPreferences;
     private FragmentManager fragmentManager;
     private boolean showFavorites;
@@ -75,6 +78,19 @@ public class MainActivity extends AppCompatActivity implements
         });
 
         setStreetArtListData();
+
+        if (!NetworkUtils.isOnline(this)) {
+            View container = findViewById(R.id.fragment_container);
+            snackbar = Snackbar
+                    .make(container, getString(R.string.no_internet), Snackbar.LENGTH_INDEFINITE)
+                    .setAction(getString(R.string.okay), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            snackbar.dismiss();
+                        }
+                    });
+            snackbar.show();
+        }
     }
 
     private void setUpView() {

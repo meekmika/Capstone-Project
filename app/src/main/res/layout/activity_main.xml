@@ -24,7 +24,6 @@
         android:background="@drawable/container_dropshadow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:elevation="8dp" />
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

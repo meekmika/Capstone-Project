@@ -23,12 +23,17 @@ import java.util.List;
 
 import static com.meekmika.warsart.utils.SharedPrefsUtils.FAVORITES_KEY;
 
+/**
+ * https://firebase.googleblog.com/2017/12/using-android-architecture-components.html
+ */
+
 public class StreetArtViewModel extends AndroidViewModel {
     private static final DatabaseReference DB_REF = FirebaseDatabase.getInstance().getReference();
     private final FirebaseQueryLiveData liveData = new FirebaseQueryLiveData(DB_REF);
     private final LiveData<HashMap<String, StreetArt>> streetArtLiveData = Transformations.map(liveData, new Deserializer());
     private HashSet<String> favoriteIds;
     private MutableLiveData<List<StreetArt>> streetArtFavoritesLiveData = new MutableLiveData<>();
+
     private SharedPreferences.OnSharedPreferenceChangeListener listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
             switch (key) {

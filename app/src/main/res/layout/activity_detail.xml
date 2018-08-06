@@ -12,18 +12,20 @@
         android:elevation="@dimen/toolbar_elevation"
         android:theme="@style/Base.ThemeOverlay.AppCompat.ActionBar">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/work_sans_medium"
+            android:text="@string/details"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/detail_toolbar_text_size" />
+
         <com.meekmika.warsart.ui.FavoriteButton
             android:id="@+id/btn_favorite"
-            android:layout_width="@dimen/icon_size"
-            android:layout_height="@dimen/icon_size"
+            style="@style/FavoriteButton"
             android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/margin_large"
-            android:layout_marginStart="@dimen/margin_large"
-            android:background="@drawable/toggle_favorite"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:textOff=""
-            android:textOn="" />
+            android:background="@drawable/toggle_favorite" />
 
     </android.support.v7.widget.Toolbar>
 

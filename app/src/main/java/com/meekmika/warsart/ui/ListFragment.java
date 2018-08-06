@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.meekmika.warsart.R;
 import com.meekmika.warsart.adapters.StreetArtAdapter;
@@ -24,6 +25,7 @@ import static com.meekmika.warsart.ui.DetailActivity.EXTRA_STREET_ART_ID;
 public class ListFragment extends Fragment implements StreetArtAdapter.StreetArtAdapterOnClickHandler {
 
     private StreetArtAdapter adapter;
+    private ImageView placeholder;
 
     public ListFragment() {
     }
@@ -40,6 +42,8 @@ public class ListFragment extends Fragment implements StreetArtAdapter.StreetArt
             public void onChanged(@Nullable List<StreetArt> streetArtList) {
                 if (streetArtList != null) {
                     adapter.setStreetArtData(streetArtList);
+                    if (adapter.getItemCount() != 0) placeholder.setVisibility(View.GONE);
+                    else placeholder.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -49,6 +53,8 @@ public class ListFragment extends Fragment implements StreetArtAdapter.StreetArt
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_list, container, false);
+
+        placeholder = rootView.findViewById(R.id.placeholder);
 
         RecyclerView recyclerView = rootView.findViewById(R.id.street_art_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));

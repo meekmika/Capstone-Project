@@ -1,5 +1,7 @@
 package com.meekmika.warsart.adapters;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,6 +28,7 @@ public class StreetArtAdapter extends RecyclerView.Adapter<StreetArtAdapter.Stre
     private List<StreetArt> streetArtData;
     private StreetArtAdapterOnClickHandler clickHandler;
     private FirebaseStorage storage;
+    private Context context;
 
     public StreetArtAdapter() {
         storage = FirebaseStorage.getInstance();
@@ -35,7 +38,8 @@ public class StreetArtAdapter extends RecyclerView.Adapter<StreetArtAdapter.Stre
     @NonNull
     @Override
     public StreetArtViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.street_art_list_item, parent, false);
         return new StreetArtViewHolder(view);
     }
@@ -44,14 +48,20 @@ public class StreetArtAdapter extends RecyclerView.Adapter<StreetArtAdapter.Stre
     public void onBindViewHolder(@NonNull StreetArtViewHolder holder, int position) {
         StreetArt streetArt = streetArtData.get(position);
         String id = streetArt.getId();
-        String title = streetArt.getTitle();
-        String address = streetArt.getAddress();
 
+        String title = streetArt.getTitle();
+        if (title == null || title.isEmpty()) title = "Untitled";
         holder.streetArtTitle.setText(title);
+        holder.streetArtTitle.setContentDescription(context.getString(R.string.a11y_title, title));
+
+        String address = streetArt.getAddress();
+        if (address == null || address.isEmpty()) address = "Unknown location";
         holder.streetArtAddress.setText(address);
+        holder.streetArtAddress.setContentDescription(context.getString(R.string.a11y_address, address));
+
         holder.favoriteButton.setStreetArtId(id);
         holder.favoriteButton.setChecked(SharedPrefsUtils.isFavorite(holder.itemView.getContext(), id));
-
+        holder.favoriteButton.setContentDescription(context.getString(R.string.a11y_toggle_favorite));
 
         StorageReference storageReference;
         try {

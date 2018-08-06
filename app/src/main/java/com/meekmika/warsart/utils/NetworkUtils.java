@@ -1,5 +1,8 @@
 package com.meekmika.warsart.utils;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -16,8 +19,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Locale;
 import java.util.Scanner;
-
-import timber.log.Timber;
 
 public class NetworkUtils {
     private static final String DISTANCE_MATRIX_BASE_URL = "https://maps.googleapis.com/maps/api/distancematrix/json";
@@ -136,5 +137,11 @@ public class NetworkUtils {
         parsedDestinationData[3] = destination;
 
         return parsedDestinationData;
+    }
+
+    public static boolean isOnline(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }

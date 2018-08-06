@@ -9,19 +9,29 @@
     <dimen name="padding_icon">12dp</dimen>
     <dimen name="padding_large">16dp</dimen>
 
+    <dimen name="street_art_detail_title_text_size">24sp</dimen>
+    <dimen name="street_art_detail_artist_text_size">14sp</dimen>
+    <dimen name="street_art_detail_description_text_size">15sp</dimen>
+    <dimen name="street_art_detail_address_text_size">15sp</dimen>
+    <dimen name="street_art_detail_distance_text_size">13sp</dimen>
+    <dimen name="main_toolbar_text_size">20sp</dimen>
+    <dimen name="detail_toolbar_text_size">18sp</dimen>
+
     <dimen name="bottom_navigation_height">48dp</dimen>
     <dimen name="card_corner_radius">4dp</dimen>
     <dimen name="expanded_toolbar_height">210dp</dimen>
     <dimen name="icon_size">24dp</dimen>
     <dimen name="icon_size_large">36dp</dimen>
     <dimen name="toolbar_elevation">4dp</dimen>
-    <dimen name="main_toolbar_text_size">20sp</dimen>
     <dimen name="divider_thickness">1dp</dimen>
-    <!--<item name="divider_thickness" type="dimen" format="float">1</item>-->
+    <dimen name="street_art_list_item_height">160dp</dimen>
+    <dimen name="card_elevation">1dp</dimen>
+    <dimen name="page_indicator_radius">4dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information
 http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     -->
     <dimen name="widget_margin">8dp</dimen>
+
 </resources>

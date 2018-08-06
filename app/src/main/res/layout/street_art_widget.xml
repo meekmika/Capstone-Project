@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,22 +9,21 @@
     <ImageView
         android:id="@+id/iv_street_art"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_height="match_parent"
         android:background="@android:color/darker_gray"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/placeholder" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3"
-        android:orientation="horizontal">
-
+        android:layout_height="match_parent"
+        android:background="@drawable/scrim">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
             android:orientation="vertical"
             android:padding="@dimen/padding_large">
 
@@ -32,8 +31,8 @@
                 android:id="@+id/tv_street_art_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/padding_small"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@android:color/white"
                 tools:text="Title of Street Art Piece" />
 
             <TextView
@@ -41,9 +40,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"
+                android:textColor="@android:color/white"
                 tools:text="Address of Street Art Piece" />
         </LinearLayout>
+    </RelativeLayout>
 
-    </LinearLayout>
-
-</LinearLayout>
+</FrameLayout>

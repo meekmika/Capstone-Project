@@ -12,11 +12,15 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.meekmika.warsart.R;
 import com.meekmika.warsart.data.StreetArtViewModel;
 import com.meekmika.warsart.data.model.StreetArt;
+import com.meekmika.warsart.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,6 +80,13 @@ public class StreetArtWidgetConfigureActivity extends AppCompatActivity implemen
         setResult(RESULT_CANCELED);
 
         setContentView(R.layout.street_art_widget_configure);
+
+        final ImageView placeholder = findViewById(R.id.placeholder);
+
+        if (!NetworkUtils.isOnline(this)) {
+            Toast.makeText(this, getString(R.string.no_internet), Toast.LENGTH_LONG).show();
+        }
+
         RecyclerView recyclerView = findViewById(R.id.rv_street_art_list);
         adapter = new StreetArtWidgetAdapter();
         adapter.setOnClickHandler(this);
@@ -90,6 +101,8 @@ public class StreetArtWidgetConfigureActivity extends AppCompatActivity implemen
                 if (streetArtHashMap != null) {
                     StreetArtWidgetConfigureActivity.this.streetArtHashMap = streetArtHashMap;
                     adapter.setStreetArtData(new ArrayList<>(streetArtHashMap.values()));
+                    if (adapter.getItemCount() != 0) placeholder.setVisibility(View.GONE);
+                    else placeholder.setVisibility(View.VISIBLE);
                 }
             }
         });

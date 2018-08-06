@@ -12,6 +12,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import timber.log.Timber;
 
+/**
+ * https://firebase.googleblog.com/2017/12/using-android-architecture-components.html
+ */
+
 public class FirebaseQueryLiveData extends LiveData<DataSnapshot> {
 
     private static final int DELAY_MILLIS = 2000;

@@ -1,5 +1,7 @@
 package com.meekmika.warsart.widget;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,6 +26,7 @@ public class StreetArtWidgetAdapter extends RecyclerView.Adapter<StreetArtWidget
     private List<StreetArt> streetArtData;
     private StreetArtWidgetAdapterOnClickHandler clickHandler;
     private FirebaseStorage storage;
+    private Context context;
 
     public StreetArtWidgetAdapter() {
         storage = FirebaseStorage.getInstance();
@@ -32,19 +35,25 @@ public class StreetArtWidgetAdapter extends RecyclerView.Adapter<StreetArtWidget
     @NonNull
     @Override
     public StreetArtViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.street_art_list_item, parent, false);
+        context = parent.getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.street_art_widget_list_item, parent, false);
         return new StreetArtWidgetAdapter.StreetArtViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull StreetArtViewHolder holder, int position) {
         StreetArt streetArt = streetArtData.get(position);
-        String title = streetArt.getTitle();
-        String address = streetArt.getAddress();
 
+        String title = streetArt.getTitle();
+        if (title == null || title.isEmpty()) title = "Untitled";
         holder.streetArtTitle.setText(title);
+        holder.streetArtTitle.setContentDescription(context.getString(R.string.a11y_title, title));
+
+        String address = streetArt.getAddress();
+        if (address == null || address.isEmpty()) address = "Unknown location";
         holder.streetArtAddress.setText(address);
+        holder.streetArtAddress.setContentDescription(context.getString(R.string.a11y_address, address));
 
         StorageReference storageReference;
         try {
