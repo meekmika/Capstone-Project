@@ -102,7 +102,7 @@ public class NetworkUtils {
 
         final String STATUS_CODE_OK = "OK";
 
-        String[] parsedDestinationData = null;
+        String[] parsedDestinationData;
 
         JSONObject responseJson = new JSONObject(responseJsonString);
 

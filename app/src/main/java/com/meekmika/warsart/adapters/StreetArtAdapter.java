@@ -1,7 +1,6 @@
 package com.meekmika.warsart.adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -50,12 +49,13 @@ public class StreetArtAdapter extends RecyclerView.Adapter<StreetArtAdapter.Stre
         String id = streetArt.getId();
 
         String title = streetArt.getTitle();
-        if (title == null || title.isEmpty()) title = "Untitled";
+        if (title == null || title.isEmpty()) title = context.getString(R.string.untitled);
         holder.streetArtTitle.setText(title);
         holder.streetArtTitle.setContentDescription(context.getString(R.string.a11y_title, title));
 
         String address = streetArt.getAddress();
-        if (address == null || address.isEmpty()) address = "Unknown location";
+        if (address == null || address.isEmpty())
+            address = context.getString(R.string.unknown_location);
         holder.streetArtAddress.setText(address);
         holder.streetArtAddress.setContentDescription(context.getString(R.string.a11y_address, address));
 

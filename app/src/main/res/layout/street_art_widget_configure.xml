@@ -34,6 +34,7 @@
             android:id="@+id/placeholder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:contentDescription="@string/a11y_placeholder"
             android:src="@drawable/placeholder_lighter" />
 
 

@@ -6,14 +6,12 @@
     <string name="address">Address</string>
     <string name="distance">%1$s walk - %2$s</string>
     <string name="show_only_favorites">Show only favorites</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="configure">Configure</string>
-    <string name="add_widget">Add widget</string>
     <string name="details">Details</string>
     <string name="map">Map</string>
     <string name="list">List</string>
     <string name="no_internet">No Internet Connection</string>
     <string name="okay">OH, OKAY</string>
+    <string name="pick_street_art">Pick Street Art for Widget</string>
 
     <!-- Accessibility -->
     <string name="a11y_title">Title: <xliff:g id="title">%1$s</xliff:g></string>
@@ -21,12 +19,16 @@
     <string name="a11y_about">About: <xliff:g id="about">%1$s</xliff:g></string>
     <string name="a11y_address">Address: <xliff:g id="address">%1$s</xliff:g></string>
     <string name="a11y_distance">Distance: <xliff:g id="distance">%1$s</xliff:g>, Duration: <xliff:g id="duration">%2$s</xliff:g></string>
+    <string name="a11y_image">Image of street art</string>
     <string name="a11y_images">Images of street art</string>
     <string name="a11y_map">Map locating the street art</string>
     <string name="a11y_maps_button">Open maps app</string>
     <string name="a11y_toggle_favorite">Toggle favorite</string>
     <string name="a11y_map_view">Map view</string>
     <string name="a11y_list_view">List view</string>
-    <string name="pick_street_art">Pick Street Art for Widget</string>
+    <string name="a11y_placeholder">a placeholder image</string>
+    <string name="untitled">Untitled</string>
+    <string name="unknown_location">Unknown location</string>
+    <string name="unknown">Unknown</string>
 
 </resources>

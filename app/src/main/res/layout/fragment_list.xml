@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:contentDescription="@string/a11y_placeholder"
         android:id="@+id/placeholder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

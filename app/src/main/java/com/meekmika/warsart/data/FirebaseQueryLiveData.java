@@ -31,10 +31,6 @@ public class FirebaseQueryLiveData extends LiveData<DataSnapshot> {
     };
     private Handler handler = new Handler();
 
-    public FirebaseQueryLiveData(Query query) {
-        this.query = query;
-    }
-
     public FirebaseQueryLiveData(DatabaseReference ref) {
         this.query = ref;
     }

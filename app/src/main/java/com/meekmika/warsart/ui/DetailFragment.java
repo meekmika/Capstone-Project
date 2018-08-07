@@ -118,12 +118,12 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
             viewPager.setContentDescription(getString(R.string.a11y_images));
 
             String title = streetArt.getTitle();
-            if (title == null || title.isEmpty()) title = "Untitled";
+            if (title == null || title.isEmpty()) title = getString(R.string.untitled);
             titleTextView.setText(title);
             titleTextView.setContentDescription(getString(R.string.a11y_title, title));
 
             String artist = streetArt.getArtist();
-            if (artist == null || artist.isEmpty()) artist = "Unknown";
+            if (artist == null || artist.isEmpty()) artist = getString(R.string.unknown);
             artistTextView.setText(getString(R.string.created_by, artist));
             artistTextView.setContentDescription(getString(R.string.a11y_created_by, artist));
 
@@ -134,7 +134,8 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
             descriptionTextView.setContentDescription(getString(R.string.a11y_about, description));
 
             String address = streetArt.getAddress();
-            if (streetArt.getAddress() == null || address.isEmpty()) address = "Unknown location";
+            if (streetArt.getAddress() == null || address.isEmpty())
+                address = getString(R.string.unknown_location);
             addressTextView.setText(address);
             addressTextView.setContentDescription(getString(R.string.a11y_address, address));
 
@@ -224,6 +225,7 @@ public class DetailFragment extends Fragment implements OnMapReadyCallback {
             if (response != null && getContext() != null) {
                 distanceTextView.setText(getString(R.string.distance, response[0], response[1]));
                 distanceTextView.setVisibility(View.VISIBLE);
+                distanceTextView.setContentDescription(getString(R.string.a11y_distance, response[0], response[1]));
             }
         }
     }
