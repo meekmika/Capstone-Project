@@ -14,16 +14,16 @@ _The database included in this project contains only a subset of the data I coll
 
 Explore street art in Warsaw! The app locates graffiti and murals all over the city. View pictures, read about the pieces, and find out how to get there. Save your favorites and create a list of places to visit. Discover the beautiful city of Warsaw and its rich urban scene at the same time.
 
+### Screenshots
+<img src="screens/warsart-map-view.png" width="30%" align="top"/>&nbsp;&nbsp;
+<img src="screens/warsart-list-view.png" width="30%" align="top"/>&nbsp;&nbsp;
+<img src="screens/warsart-detail-view.png" width="30%" align="top"/>
+
 ### Background
 
 After graduating from KTH in 2017, I decided to live in Warsaw for the rest of the year. Other than trying to learn Polish, I spent a lot of time biking around to discover the art the city has to offer. I had also just begun my journey in Android development and it all resulted in this little passion project I call Warsart.
 
 This project was also my Capstone Project for the Android Developer Nanodegree Program which demonstrated the skills of a proficient Android developer by designing an app and making plans for how to implement it, to show the ability to communicate an app idea formally.
-
-### Screenshots
-<img src="screens/warsart-map-view.png" width="30%" align="top"/>&nbsp;&nbsp;
-<img src="screens/warsart-list-view.png" width="30%" align="top"/>&nbsp;&nbsp;
-<img src="screens/warsart-detail-view.png" width="30%" align="top"/>
 
 ### Features
 * Locate street art on a map
